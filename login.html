@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Chat Ambiental 🌱</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
+    <style>
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .chat-container {
+            text-align: center;
+        }
+
+        input {
+            padding: 10px;
+            border: 1px solid #81c784;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .erro {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <h2>🌳 Login no Chat Ambiental</h2>
+        {% if erro %}
+            <p class="erro">{{ erro }}</p>
+        {% endif %}
+        <form method="post">
+            <input type="text" name="usuario" placeholder="Usuário" required>
+            <input type="password" name="senha" placeholder="Senha" required>
+            <button type="submit">Entrar</button>
+        </form>
+    </div>
+</body>
+</html>

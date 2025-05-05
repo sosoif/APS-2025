@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat Ambiental 🌍</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="logout">
+            <a href="{{ url_for('logout') }}">Sair</a>
+        </div>
+        <h2>🌿 Bem-vindo(a), {{ usuario }}!</h2>
+        <ul id="messages"></ul>
+        <input id="msg" type="text" placeholder="Escreva com consciência...">
+        <button onclick="enviar()">Enviar</button>
+    </div>
+
+    <script>
+        const socket = io();
+
+        socket.on('message', function(msg) {
+            const item = document.createElement('li');
+            if (msg.startsWith('🔔') || msg.startsWith('❌')) {
+                item.classList.add('system-message');
+            }
+            item.textContent = msg;
+            document.getElementById('messages').appendChild(item);
+            item.scrollIntoView({ behavior: 'smooth' });
+        });
+
+        function enviar() {
+            const input = document.getElementById('msg');
+            const texto = input.value.trim();
+            if (texto !== '') {
+                socket.send(texto);
+                input.value = '';
+            }
+        }
+
+        document.getElementById('msg').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') enviar();
+        });
+    </script>
+</body>
+</html>
